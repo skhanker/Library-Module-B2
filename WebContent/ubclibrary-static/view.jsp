@@ -18,7 +18,6 @@
 	String user_id = ctx.getUser().getBatchUid();
   String signature = sigService.generateSig(consumerKey, signatureMethod, version, user_id, timestamp, nonce);
 %>
-<iframe id="contentFrame" style="height: 750px; border:none; margin: 0; padding: 0" frameborder="0" name="content" title="Content"></iframe>
 <form method="POST" action="<%= new UBCLibraryServlet().getParam("url") %>" id="frameContent">
 	<input type="hidden" value="<%= consumerKey %>" name="oauth_consumer_key" id="oauth_consumer_key">
 	<input type="hidden" value="<%= signatureMethod %>" name="oauth_signature_method" id="oauth_signature_method">
@@ -30,11 +29,7 @@
 </form>
 
 <script>
-    var contentFrame = document.getElementById("contentFrame");
-    var frameContent = (contentFrame.contentDocument) ? contentFrame.contentDocument: contentFrame.contentWindow.document;
     var fc = document.getElementById("frameContent");
-    frameContent.body.appendChild(fc);
-    document.getElementById("contentFrame").style.height = document.getElementById("content").offsetHeight + 'px';
-    frameContent.getElementById("frameContent").submit();
+    fc.submit();
 </script>
 </bbNG:genericPage>
