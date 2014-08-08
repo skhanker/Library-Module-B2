@@ -18,6 +18,7 @@
   String user_id = ctx.getUser().getBatchUid();
   String signature = sigService.generateSig(consumerKey, signatureMethod, version, user_id, timestamp, nonce);
 %>
+<iframe id="contentFrame" style="height: 750px; border:none; margin: 0; padding: 0; width: 100%" frameborder="0" name="content" title="Content"></iframe>
 <form method="POST" action="<%= new UBCLibraryServlet().getParam("url") %>" id="frameContent">
   <input type="hidden" value="<%= consumerKey %>" name="oauth_consumer_key" id="oauth_consumer_key">
   <input type="hidden" value="<%= signatureMethod %>" name="oauth_signature_method" id="oauth_signature_method">
@@ -30,7 +31,13 @@
 </form>
 
 <script>
-    var fc = document.getElementById("frameContent");
-    fc.submit();
+    var globalContentArea = document.getElementById("globalNavPageContentArea");
+    var script = document.createElement("script");
+    var locrjsUrl = "<%= new UBCLibraryServlet().getParam("url") %>";
+    locrjsUrl = locrjsUrl.replace("tab.php", "locrjs.js");
+    script.type = 'text/javascript';
+    script.setAttribute('defer', 'defer');
+    script.setAttribute('src', locrjsUrl);
+    globalContentArea.appendChild(script);
 </script>
 </bbNG:genericPage>
